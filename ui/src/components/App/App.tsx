@@ -18,15 +18,13 @@ import AppLayout from "./AppLayout";
 const App = () => {
   return (
     <ConfigProvider>
-      <ThemeProvider>
-        <JobsProvider>
-          <SocketsProvider>
-            <ProjectsProvider>
-              <AppLayout />
-            </ProjectsProvider>
-          </SocketsProvider>
-        </JobsProvider>
-      </ThemeProvider>
+      <JobsProvider>
+        <SocketsProvider>
+          <ProjectsProvider>
+            <AppLayout />
+          </ProjectsProvider>
+        </SocketsProvider>
+      </JobsProvider>
     </ConfigProvider>
   );
 };

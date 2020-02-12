@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useTheme } from "../shared/stores/ThemeStore";
 import { useProjects } from "../shared/stores/ProjectStore";
 import { Classes } from "@blueprintjs/core";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 const Container = styled.div`
   height: 20px;
@@ -18,7 +20,7 @@ const Container = styled.div`
 `;
 
 const Statusbar = () => {
-  const { theme } = useTheme();
+  const theme = useSelector<RootState>(state => state.theme);
   const {
     totalRunningTaskCount,
     activeProject,

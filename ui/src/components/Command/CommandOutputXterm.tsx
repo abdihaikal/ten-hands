@@ -6,6 +6,8 @@ import { useConfig } from "../shared/stores/ConfigStore";
 import JobTerminal from "../shared/JobTerminal";
 import JobTerminalManager from "../shared/JobTerminalManager";
 import { useTheme } from "../shared/stores/ThemeStore";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 interface ICommandProps {
   room: string;
@@ -23,7 +25,7 @@ const CommandOutputXterm: React.FC<ICommandProps> = React.memo(
   ({ room, index }) => {
     const elRef = React.useRef<HTMLDivElement>(null);
     const terminal = React.useRef<JobTerminal | null>(null);
-    const { theme } = useTheme();
+    const theme = useSelector<RootState>(state => state.theme);
     const currentTheme = React.useRef<any>(null);
     const themeTimeout = React.useRef<any>(null);
     // const terminalAttached = React.useRef<boolean>(false);
@@ -31,7 +33,7 @@ const CommandOutputXterm: React.FC<ICommandProps> = React.memo(
 
     const setTheme = () => {
       if (terminal && terminal.current) {
-        terminal.current.setTheme(theme);
+        terminal.current.setTheme(theme as string);
         if (currentTheme && currentTheme.current) {
           currentTheme.current = theme;
         }

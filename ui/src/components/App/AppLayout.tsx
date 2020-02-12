@@ -3,17 +3,18 @@ import SplitPane from "react-split-pane";
 import { isRunningInElectron } from "../../utils/electron";
 import Main from "../Main/Main";
 import { useSockets } from "../shared/stores/SocketStore";
-import { useTheme } from "../shared/stores/ThemeStore";
 import Sidebar from "../Sidebar";
 import Statusbar from "../Statusbar/Statusbar";
 import Topbar from "../Topbar";
 import DesktopMenu from "./DesktopMenu";
 import { useConfig } from "../shared/stores/ConfigStore";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 const isWindows = navigator.platform.toLowerCase() === "win32";
 
 const AppLayout = React.memo(() => {
-  const { theme } = useTheme();
+  const theme = useSelector<RootState>(state => state.theme);
   const { config } = useConfig();
   const { isSocketInitialized, initializeSocket } = useSockets();
   const topbarHeight = isRunningInElectron() && isWindows ? "30px" : "50px";
@@ -34,7 +35,10 @@ const AppLayout = React.memo(() => {
 
   return (
     <React.Fragment>
-      <div className={theme} style={{ height: "100%", width: "100%" }}>
+      <div
+        className={theme as string}
+        style={{ height: "100%", width: "100%" }}
+      >
         {/* New menubar is only for Windows in this release :( */}
         {isRunningInElectron() && isWindows ? (
           <DesktopMenu />

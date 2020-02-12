@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import { useTheme } from "../shared/stores/ThemeStore";
 import NewCommandForm from "./NewCommandForm";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 const DrawerContainer = styled.div`
   height: 100%;
@@ -16,11 +18,11 @@ interface INewDrawerProps {
 
 const NewCommandDrawer: React.FC<INewDrawerProps> = React.memo(
   ({ isDrawerOpen, setDrawerOpen }) => {
-    const { theme } = useTheme();
+    const theme = useSelector<RootState>(state => state.theme);
 
     return (
       <Drawer
-        className={theme}
+        className={theme as string}
         isOpen={isDrawerOpen}
         title="Add Task"
         onClose={() => setDrawerOpen(false)}

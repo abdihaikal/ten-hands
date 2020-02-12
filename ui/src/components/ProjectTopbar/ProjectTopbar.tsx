@@ -24,6 +24,8 @@ import { useProjects } from "../shared/stores/ProjectStore";
 import { useTheme } from "../shared/stores/ThemeStore";
 import CommandOrderListContainer from "./CommandOrderListContainer";
 import { useMountedState } from "../shared/hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 interface IProjectTopbarProps {
   activeProject: IProject;
@@ -53,7 +55,7 @@ const ProjectTopbar: React.FC<IProjectTopbarProps> = React.memo(
     const [renameProjectModalOpen, setRenameProjectModalOpen] = React.useState<
       boolean
     >(false);
-    const { theme } = useTheme();
+    const theme = useSelector<RootState>(state => state.theme);
     const [isDrawerOpen, setDrawerOpen] = React.useState<boolean>(false);
     const [projectNameError, setProjectNameError] = React.useState<string>("");
     const [isRenaming, setIsRenaming] = React.useState<boolean>(false);
@@ -276,7 +278,7 @@ const ProjectTopbar: React.FC<IProjectTopbarProps> = React.memo(
         <Dialog
           title="Change Tasks Order"
           icon={"numbered-list"}
-          className={theme}
+          className={theme as string}
           isOpen={commandsOrderModalOpen}
           onClose={handleChangeOrderModalClose}
         >
@@ -285,7 +287,7 @@ const ProjectTopbar: React.FC<IProjectTopbarProps> = React.memo(
         <Alert
           cancelButtonText="Cancel"
           confirmButtonText="Yes, Delete"
-          className={theme}
+          className={theme as string}
           icon="trash"
           intent="danger"
           isOpen={isDeleteAlertOpen}
@@ -303,7 +305,7 @@ const ProjectTopbar: React.FC<IProjectTopbarProps> = React.memo(
         <Dialog
           title={`Rename project: ${activeProject.name}`}
           icon="edit"
-          className={theme}
+          className={theme as string}
           isOpen={renameProjectModalOpen}
           onClose={handleRenameProjectModalClose}
           style={{ paddingBottom: 0 }}

@@ -5,6 +5,8 @@ import CommandsArea from "../CommandsArea";
 import ProjectTopbar from "../ProjectTopbar";
 import { useProjects } from "../shared/stores/ProjectStore";
 import { useTheme } from "../shared/stores/ThemeStore";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 const Container = styled.div`
   border-top: 1px solid transparent; /* To prevent margin-collapse for first child doesn't happen */
@@ -26,7 +28,7 @@ const EmptyContainer = styled(Container)`
 `;
 
 const Main = React.memo(() => {
-  const { theme } = useTheme();
+  const theme = useSelector<RootState>(state => state.theme);
   const { activeProject, loadingProjects, projects } = useProjects();
 
   if (loadingProjects) {

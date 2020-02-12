@@ -1,7 +1,9 @@
 import { Button, Classes, Icon } from "@blueprintjs/core";
 import React from "react";
 import styled from "styled-components";
-import { useTheme } from "../shared/stores/ThemeStore";
+import { useSelector, useDispatch } from "react-redux";
+import { setTheme } from "../../state/reducers/theme.reducer";
+import { RootState } from "../../state/reducers";
 
 const MenuContainer = styled.div`
   -webkit-app-region: drag;
@@ -73,7 +75,9 @@ const DesktopMenu = () => {
     });
   };
 
-  const { theme, setTheme } = useTheme();
+  const dispatch = useDispatch();
+  const theme = useSelector<RootState>(state => state.theme);
+
   const [maximizeIcon, setMaximizeIcon] = React.useState<TMinMaxIconType>(
     startingIcon
   );
@@ -98,7 +102,7 @@ const DesktopMenu = () => {
           <Button
             data-testid="theme-light"
             icon="moon"
-            onClick={() => setTheme(`light`)}
+            onClick={() => dispatch(setTheme(`light`))}
             minimal={true}
           >
             Dark
@@ -107,7 +111,7 @@ const DesktopMenu = () => {
           <Button
             data-testid="theme-dark"
             icon="flash"
-            onClick={() => setTheme(Classes.DARK)}
+            onClick={() => dispatch(setTheme(Classes.DARK))}
             minimal={true}
           >
             Light

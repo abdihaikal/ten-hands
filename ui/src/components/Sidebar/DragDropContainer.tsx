@@ -9,6 +9,8 @@ import { isRunningInElectron } from "../../utils/electron";
 import { hasProjectWithSameName } from "../../utils/projects";
 import { useTheme } from "../shared/stores/ThemeStore";
 import { toaster } from "../shared/Toaster";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/reducers";
 
 interface IDragDropContainerProps {
   children: ReactNodeArray;
@@ -26,7 +28,7 @@ const Container = styled.div`
 
 const DragDropContainer: React.FC<IDragDropContainerProps> = ({ children }) => {
   const { projects, addProject } = useProjects();
-  const { theme } = useTheme();
+  const theme = useSelector<RootState>(state => state.theme);
 
   const handleProjectFileUpload = async file => {
     try {
