@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { isValidPath } from "../../utils/node";
 import { useConfig } from "../shared/stores/ConfigStore";
 import { useProjects } from "../shared/stores/ProjectStore";
+import { useStateSelector } from "../shared/hooks";
 
 const initialCommand: IProjectCommand = {
   _id: "",
@@ -26,7 +27,7 @@ interface INewProjectFormProps {
 const NewProjectForm: React.FC<INewProjectFormProps> = React.memo(
   ({ setDrawerOpen }) => {
     const { activeProject, addTask } = useProjects();
-    const { config } = useConfig();
+    const config: IConfig = useStateSelector(state => state.config);
 
     const [errors, setErrors] = useState<any>({
       path: ""

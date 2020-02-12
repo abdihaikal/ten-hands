@@ -7,6 +7,7 @@ import { useProjects } from "../shared/stores/ProjectStore";
 import { useTheme } from "../shared/stores/ThemeStore";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 const Container = styled.div`
   border-top: 1px solid transparent; /* To prevent margin-collapse for first child doesn't happen */
@@ -28,7 +29,7 @@ const EmptyContainer = styled(Container)`
 `;
 
 const Main = React.memo(() => {
-  const theme = useSelector<RootState>(state => state.theme);
+  const theme = useStateSelector(state => state.theme);
   const { activeProject, loadingProjects, projects } = useProjects();
 
   if (loadingProjects) {

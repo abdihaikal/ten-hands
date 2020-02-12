@@ -8,6 +8,7 @@ import { Classes, Icon, Collapse } from "@blueprintjs/core";
 import ProjectTaskItem from "./ProjectTaskItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 interface IProjectItemProps {
   project: IProject;
@@ -28,7 +29,7 @@ const ProjectItem: React.FC<IProjectItemProps> = ({
   projectTaskListOpenMap,
   updateProjectTaskListOpen
 }) => {
-  const theme = useSelector<RootState>(state => state.theme);
+  const theme = useStateSelector(state => state.theme);
   const { activeProject } = useProjects();
   const [showDragHandle, setShowDragHandle] = React.useState<boolean>(false);
   const isThisActiveProject = activeProject._id === project._id;

@@ -13,6 +13,7 @@ import { useProjects } from "../shared/stores/ProjectStore";
 import { Container } from "./styles";
 import ProjectItem from "./ProjectItem";
 import { Button } from "@blueprintjs/core";
+import { useStateSelector } from "../shared/hooks";
 
 interface IProjectsListContainerProps {}
 
@@ -36,7 +37,7 @@ const ProjectsListContainer: React.FC<IProjectsListContainerProps> = () => {
     setActiveProjectIndexBeforeDrag
   ] = React.useState<number>(0);
 
-  const { config } = useConfig();
+  const config: IConfig = useStateSelector(state => state.config);
 
   const expandOrCollapseAllProjects = React.useCallback(
     (collapse: boolean = false) => {

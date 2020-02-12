@@ -10,6 +10,7 @@ import { useProjects } from "../shared/stores/ProjectStore";
 import handleConfigFiles from "./handleConfigFiles";
 import NewProjectCommands from "./NewProjectCommands";
 import ProjectFileUpload from "./ProjectFileUpload";
+import { useStateSelector } from "../shared/hooks";
 
 const initialProject: IProject = {
   name: "",
@@ -32,7 +33,7 @@ const NewProjectForm: React.FC<INewProjectFormProps> = React.memo(
   ({ setDrawerOpen }) => {
     const [configFileName, setConfigFileName] = useState("");
     const { projects, addProject } = useProjects();
-    const { config } = useConfig();
+    const config: IConfig = useStateSelector(state => state.config);
 
     const [errors, setErrors] = useState<any>({
       name: "",

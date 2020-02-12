@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { useConfig } from "./ConfigStore";
 import { useJobs } from "./JobStore";
 import JobTerminalManager from "../JobTerminalManager";
+import { useStateSelector } from "../hooks";
 
 // see https://github.com/xtermjs/xterm.js/issues/895#issuecomment-323221447
 const options: any = { enabled: true, level: 3 };
@@ -33,7 +34,7 @@ export const SocketsContext = React.createContext<
 function SocketsProvider(props: ISocketProviderProps) {
   const [isSocketInitialized, setSocketInitialized] = React.useState(false);
   const { dispatch, ACTION_TYPES } = useJobs();
-  const { config } = useConfig();
+  const config: IConfig = useStateSelector(state => state.config);
   const terminalManager = JobTerminalManager.getInstance();
   const _socket = React.useRef<any>();
 

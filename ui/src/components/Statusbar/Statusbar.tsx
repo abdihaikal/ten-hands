@@ -5,6 +5,7 @@ import { useProjects } from "../shared/stores/ProjectStore";
 import { Classes } from "@blueprintjs/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 const Container = styled.div`
   height: 20px;
@@ -20,7 +21,7 @@ const Container = styled.div`
 `;
 
 const Statusbar = () => {
-  const theme = useSelector<RootState>(state => state.theme);
+  const theme = useStateSelector(state => state.theme);
   const {
     totalRunningTaskCount,
     activeProject,

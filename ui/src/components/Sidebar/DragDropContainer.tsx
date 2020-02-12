@@ -11,6 +11,7 @@ import { useTheme } from "../shared/stores/ThemeStore";
 import { toaster } from "../shared/Toaster";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 interface IDragDropContainerProps {
   children: ReactNodeArray;
@@ -28,7 +29,7 @@ const Container = styled.div`
 
 const DragDropContainer: React.FC<IDragDropContainerProps> = ({ children }) => {
   const { projects, addProject } = useProjects();
-  const theme = useSelector<RootState>(state => state.theme);
+  const theme = useStateSelector(state => state.theme);
 
   const handleProjectFileUpload = async file => {
     try {

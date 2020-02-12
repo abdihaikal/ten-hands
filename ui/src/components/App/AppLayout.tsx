@@ -7,15 +7,13 @@ import Sidebar from "../Sidebar";
 import Statusbar from "../Statusbar/Statusbar";
 import Topbar from "../Topbar";
 import DesktopMenu from "./DesktopMenu";
-import { useConfig } from "../shared/stores/ConfigStore";
-import { useSelector } from "react-redux";
-import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 const isWindows = navigator.platform.toLowerCase() === "win32";
 
 const AppLayout = React.memo(() => {
-  const theme = useSelector<RootState>(state => state.theme);
-  const { config } = useConfig();
+  const theme = useStateSelector(state => state.theme);
+  const config = useStateSelector(state => state.config);
   const { isSocketInitialized, initializeSocket } = useSockets();
   const topbarHeight = isRunningInElectron() && isWindows ? "30px" : "50px";
   const statusbarHeight = config.showStatusBar ? "20px" : "0px";

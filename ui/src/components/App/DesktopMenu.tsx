@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "../../state/reducers/theme.reducer";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 const MenuContainer = styled.div`
   -webkit-app-region: drag;
@@ -76,7 +77,7 @@ const DesktopMenu = () => {
   };
 
   const dispatch = useDispatch();
-  const theme = useSelector<RootState>(state => state.theme);
+  const theme = useStateSelector(state => state.theme);
 
   const [maximizeIcon, setMaximizeIcon] = React.useState<TMinMaxIconType>(
     startingIcon

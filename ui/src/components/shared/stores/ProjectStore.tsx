@@ -9,7 +9,7 @@ import {
   saveTaskInDb
 } from "../API";
 import { useConfig } from "./ConfigStore";
-import { useMountedState } from "../hooks";
+import { useMountedState, useStateSelector } from "../hooks";
 import { useJobs } from "./JobStore";
 import JobTerminalManager from "../JobTerminalManager";
 import { useSockets } from "./SocketStore";
@@ -88,7 +88,7 @@ function ProjectsProvider(props: IProjectsProviderProps) {
   const terminalManager = JobTerminalManager.getInstance();
   const { subscribeToTaskSocket, unsubscribeFromTaskSocket } = useSockets();
 
-  const { config } = useConfig();
+  const config: IConfig = useStateSelector(state => state.config);
   const [activeProject, setActiveProject] = React.useState(initialProject);
   const [projects, setProjects] = React.useState<IProject[]>([]);
   const [loadingProjects, setLoadingProjects] = React.useState(true);

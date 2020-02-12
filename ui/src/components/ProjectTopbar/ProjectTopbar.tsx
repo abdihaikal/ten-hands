@@ -23,7 +23,7 @@ import { useConfig } from "../shared/stores/ConfigStore";
 import { useProjects } from "../shared/stores/ProjectStore";
 import { useTheme } from "../shared/stores/ThemeStore";
 import CommandOrderListContainer from "./CommandOrderListContainer";
-import { useMountedState } from "../shared/hooks";
+import { useMountedState, useStateSelector } from "../shared/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
 
@@ -55,12 +55,12 @@ const ProjectTopbar: React.FC<IProjectTopbarProps> = React.memo(
     const [renameProjectModalOpen, setRenameProjectModalOpen] = React.useState<
       boolean
     >(false);
-    const theme = useSelector<RootState>(state => state.theme);
+    const theme = useStateSelector(state => state.theme);
     const [isDrawerOpen, setDrawerOpen] = React.useState<boolean>(false);
     const [projectNameError, setProjectNameError] = React.useState<string>("");
     const [isRenaming, setIsRenaming] = React.useState<boolean>(false);
     const [gitBranch, setGitBranch] = React.useState<string>("");
-    const { config } = useConfig();
+    const config: IConfig = useStateSelector(state => state.config);
     let checkBranchTimerRef = React.useRef<number>();
 
     const {

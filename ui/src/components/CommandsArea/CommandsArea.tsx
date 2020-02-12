@@ -5,6 +5,7 @@ import Command from "../Command/Command";
 import { useTheme } from "../shared/stores/ThemeStore";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/reducers";
+import { useStateSelector } from "../shared/hooks";
 
 interface ICommandsAreaProps {
   activeProject: IProject;
@@ -29,7 +30,7 @@ const EmptyContainer = styled(Container)`
 const CommandsArea: React.SFC<ICommandsAreaProps> = React.memo(
   ({ activeProject }) => {
     const commands: IProjectCommand[] = activeProject.commands;
-    const theme = useSelector<RootState>(state => state.theme);
+    const theme = useStateSelector(state => state.theme);
 
     if (commands.length === 0) {
       return (
