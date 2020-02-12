@@ -8,11 +8,12 @@ import {
   saveProjectInDb,
   saveTaskInDb
 } from "../API";
-import { useConfig } from "./ConfigStore";
 import { useMountedState, useStateSelector } from "../hooks";
 import { useJobs } from "./JobStore";
 import JobTerminalManager from "../JobTerminalManager";
 import { useSockets } from "./SocketStore";
+import { projectsActions } from "../../../state/reducers/projects.reducer";
+import { useDispatch } from "react-redux";
 
 interface IProjectContextValue {
   projectsRunningTaskCount: { [key: string]: number };
@@ -81,24 +82,36 @@ function ProjectsProvider(props: IProjectsProviderProps) {
   const {
     runningTasks,
     state: jobState,
-    dispatch,
+    dispatch: jobsDispatch,
     ACTION_TYPES,
     isTaskRunning
   } = useJobs();
   const terminalManager = JobTerminalManager.getInstance();
   const { subscribeToTaskSocket, unsubscribeFromTaskSocket } = useSockets();
-
+  const dispatch = useDispatch();
   const config: IConfig = useStateSelector(state => state.config);
-  const [activeProject, setActiveProject] = React.useState(initialProject);
-  const [projects, setProjects] = React.useState<IProject[]>([]);
-  const [loadingProjects, setLoadingProjects] = React.useState(true);
-  const [
-    projectsRunningTaskCount,
-    setProjectsRunningTaskCount
-  ] = React.useState<any>({});
+  const projectStore = useStateSelector(state => state.projects);
+
+  const activeProject = projectStore.activeProject;
+  const setActiveProject = newActiveProject =>
+    dispatch(projectsActions.setActiveProject(newActiveProject));
+
+  const projects = projectStore.projects;
+  const setProjects = newProjects =>
+    dispatch(projectsActions.setProjects(newProjects));
+
+  const loadingProjects = projectStore.loadingProjects;
+  const setLoadingProjects = newLoadingProjects =>
+    dispatch(projectsActions.setLoadingProjects(newLoadingProjects));
+
+  const projectsRunningTaskCount = projectStore.projectsRunningTaskCount;
+  const setProjectsRunningTaskCount = newProjectsRunningTaskCount =>
+    dispatch(
+      projectsActions.setProjectsRunningTaskCount(newProjectsRunningTaskCount)
+    );
 
   const clearJobOutput = room => {
-    dispatch({
+    jobsDispatch({
       type: ACTION_TYPES.CLEAR_OUTPUT,
       room
     });
@@ -107,13 +120,13 @@ function ProjectsProvider(props: IProjectsProviderProps) {
 
   const updateJobProcess = React.useCallback(
     (room, jobProcess) => {
-      dispatch({
+      jobsDispatch({
         room,
         type: ACTION_TYPES.UPDATE_JOB_PROCESS,
         process: jobProcess
       });
     },
-    [dispatch, ACTION_TYPES]
+    [jobsDispatch, ACTION_TYPES]
   );
 
   const startJob = (command: IProjectCommand) => {
@@ -166,6 +179,7 @@ function ProjectsProvider(props: IProjectsProviderProps) {
       runningTasksPerProject,
       totalRunningTaskCount
     } = getRunningTasksCountForProjects(projects, runningTasks);
+    console.log("Running tasks changing");
 
     setProjectsRunningTaskCount(runningTasksPerProject);
     setTotalRunningTaskCount(totalRunningTaskCount);

@@ -132,7 +132,7 @@ function JobsProvider(props: IJobsProviderProps) {
     if (isMounted()) {
       setRunningTasks(newTaskStatus);
     }
-  }, [state, isMounted]);
+  }, [state]);
 
   React.useEffect(() => {
     const restoreData = async () => {
