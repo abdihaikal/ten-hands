@@ -10,6 +10,8 @@ import Topbar from "../Topbar";
 import DesktopMenu from "./DesktopMenu";
 import { useConfig } from "../shared/stores/ConfigStore";
 
+import Split from "react-split";
+
 const isWindows = navigator.platform.toLowerCase() === "win32";
 
 const AppLayout = React.memo(() => {
@@ -47,7 +49,7 @@ const AppLayout = React.memo(() => {
           }}
           className="h-100 w-100"
         >
-          <SplitPane
+          {/* <SplitPane
             data-testid="splitPane"
             split="vertical"
             defaultSize={350}
@@ -59,7 +61,24 @@ const AppLayout = React.memo(() => {
           >
             <Sidebar />
             <Main />
-          </SplitPane>
+          </SplitPane> */}
+          <Split
+            sizes={[25, 75]}
+            data-testid="splitPane"
+            className="d-flex"
+            style={{
+              height: `calc(100% - ${statusbarHeight}px)`
+            }}
+            gutterSize={2}
+            cursor="col-resize"
+          >
+            <div className="h-100 w-100">
+              <Sidebar />
+            </div>
+            <div className="h-100 w-100">
+              <Main />
+            </div>
+          </Split>
           {config.showStatusBar ? <Statusbar height={statusbarHeight} /> : null}
         </div>
       </div>

@@ -14,7 +14,6 @@ interface ICommandProps {
 
 const TerminalContainer = styled.div`
   flex: 1;
-  max-width: 100%;
   padding: 10px;
   white-space: pre-wrap;
 `;
@@ -92,9 +91,11 @@ const CommandOutputXterm: React.FC<ICommandProps> = React.memo(
     );
 
     return (
-      <ResizeSensor onResize={handleResize}>
+      // <ResizeSensor onResize={handleResize}>
+      <div>
         <TerminalContainer ref={elRef} />
-      </ResizeSensor>
+      </div>
+      // </ResizeSensor>
     );
   }
 );
