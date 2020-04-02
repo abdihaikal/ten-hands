@@ -9,8 +9,7 @@ import Statusbar from "../Statusbar/Statusbar";
 import Topbar from "../Topbar";
 import DesktopMenu from "./DesktopMenu";
 import { useConfig } from "../shared/stores/ConfigStore";
-
-import Split from "react-split";
+import * as Space from "react-spaces";
 
 const isWindows = navigator.platform.toLowerCase() === "win32";
 
@@ -19,7 +18,7 @@ const AppLayout = React.memo(() => {
   const { config } = useConfig();
   const { isSocketInitialized, initializeSocket } = useSockets();
   const topbarHeight = isRunningInElectron() && isWindows ? "30px" : "50px";
-  const statusbarHeight = config.showStatusBar ? 30 : 0;
+  const statusbarHeight = config.showStatusBar ? "30px" : "0px";
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -36,52 +35,28 @@ const AppLayout = React.memo(() => {
 
   return (
     <React.Fragment>
-      <div className={theme} style={{ height: "100%", width: "100%" }}>
-        {/* New menubar is only for Windows in this release :( */}
-        {isRunningInElectron() && isWindows ? (
-          <DesktopMenu />
-        ) : (
-          <Topbar data-testid="topbar" />
-        )}
-        <div
-          style={{
-            paddingTop: `${topbarHeight}`
-          }}
-          className="h-100 w-100"
-        >
-          {/* <SplitPane
-            data-testid="splitPane"
-            split="vertical"
-            defaultSize={350}
-            maxSize={500}
-            style={{
-              maxHeight: `calc(100% - ${statusbarHeight}px)`,
-              position: "relative"
-            }}
-          >
+      <Space.ViewPort className={theme}>
+        <Space.Top size={topbarHeight}>
+          {isRunningInElectron() && isWindows ? (
+            <DesktopMenu />
+          ) : (
+            <Topbar data-testid="topbar" />
+          )}
+        </Space.Top>
+        <Space.Fill>
+          <Space.LeftResizable size="25%">
             <Sidebar />
+          </Space.LeftResizable>
+          <Space.Fill>
             <Main />
-          </SplitPane> */}
-          <Split
-            sizes={[25, 75]}
-            data-testid="splitPane"
-            className="d-flex"
-            style={{
-              height: `calc(100% - ${statusbarHeight}px)`
-            }}
-            gutterSize={2}
-            cursor="col-resize"
-          >
-            <div className="h-100 w-100">
-              <Sidebar />
-            </div>
-            <div className="h-100 w-100">
-              <Main />
-            </div>
-          </Split>
-          {config.showStatusBar ? <Statusbar height={statusbarHeight} /> : null}
-        </div>
-      </div>
+          </Space.Fill>
+        </Space.Fill>
+        {config.showStatusBar ? (
+          <Space.Bottom size={statusbarHeight}>
+            <Statusbar />
+          </Space.Bottom>
+        ) : null}
+      </Space.ViewPort>
     </React.Fragment>
   );
 });
