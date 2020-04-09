@@ -1,5 +1,7 @@
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
+import "v8-compile-cache";
+
 import { BrowserWindow, ipcMain, app, dialog } from "electron";
 const unhandled = require("electron-unhandled");
 unhandled();
@@ -16,7 +18,7 @@ import { createTray } from "./tray";
 import { isAppQuitting, setIsAppQuitting } from "./app-state";
 import {
   registerGlobalShortcuts,
-  unregisterGlobalShortcuts
+  unregisterGlobalShortcuts,
 } from "./global-hot-keys";
 import { hideWindowToTray } from "./utils";
 import registerIPC from "./ipc";
@@ -37,8 +39,8 @@ function createWindow() {
       height: 768,
       frame: isWindows ? false : true,
       webPreferences: {
-        nodeIntegration: true
-      }
+        nodeIntegration: true,
+      },
     });
 
     if (isDev) {
@@ -57,7 +59,7 @@ function createWindow() {
       mainWindow = null;
     });
 
-    mainWindow.on("close", e => {
+    mainWindow.on("close", (e) => {
       if (!isAppQuitting()) {
         e.preventDefault();
         if (mainWindow) {
@@ -126,14 +128,14 @@ async function startApplication() {
       }
     });
 
-    app.on("before-quit", e => {
+    app.on("before-quit", (e) => {
       log.info("App before-quit");
       const response = dialog.showMessageBoxSync({
         type: "info",
         title: "Warning",
         message: "Are you sure you want to exit?",
         detail: "Any running tasks will keep running.",
-        buttons: ["Cancel", "Exit"]
+        buttons: ["Cancel", "Exit"],
       });
 
       // Cancel = 0

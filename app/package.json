@@ -61,7 +61,8 @@
     "serve-handler": "^6.1.2",
     "socket.io": "^2.2.0",
     "tree-kill": "^1.2.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "v8-compile-cache": "^2.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
